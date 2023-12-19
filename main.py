@@ -5,13 +5,17 @@ import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = [
+    "http://localhost",
+    "http://localhost:4200",  # Add the URL of your Angular application
+]
 
 # Enable CORS for all origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # You can restrict this to specific HTTP methods
     allow_headers=["*"],
 )
 
@@ -66,7 +70,7 @@ class FeatureInput(BaseModel):
     interest_coverage_ratio: float
     interest_expense_ratio: float
     net_income_to_total_assets: float
-    
+
 
 @app.post("/predict-bankruptcy")
 async def predict_bankruptcy(features: FeatureInput):
